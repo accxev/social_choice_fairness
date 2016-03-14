@@ -312,6 +312,8 @@ def solveVoteESR(vote, solverSettings):
     while not state.isFinished():
         (climbTime, bouncingAgents) = computeLambda(state)
         state.advance(climbTime, bouncingAgents)
+	#TODO find better representation for bouncingAgents and the state
+	print "climb time: " + repr(climbTime) + ", bouncingAgents: tba, " + "state: " + str(state) + "\n"
     return findLottery(vote, state.getCurrentClassHeights(), state.getSettings())
 
 
