@@ -30,6 +30,35 @@ if __name__ == '__main__':
         3: [(A, C), (B)],
     }
 
+    #vote = {
+    #    1: [(A), (B), (C)],
+    #    2: [(A), (B), (C)],
+    #    3: [(A), (B), (C)],
+    #}
+
+    # very simple vote
+    #vote = {
+    #	1: [ (A), (B) ],
+    #	2: [ (B), (A) ],
+    #	}
+
+    # example from paper
+    #vote = {
+	#1: [(A), (B), (E), (C,D)],
+	#2: [(A), (C), (D), (B,E)],
+	#3: [(B,D), (A,C,E)],
+	#4: [(C,E), (A,B,D)],
+	#5: [(C), (A,B,E), (D)],
+    #}
+
+    # example from Tobias' MA
+    #vote = {
+	#1: [(A,B,C), (D), (E)],
+	#2: [(A,C,D), (B), (E)],
+	#3: [(D,E), (A,C), (B)],
+	#4: [(A,B,E), (C,D)],
+    #}
+	
     vote = parseVoteFromDict(vote)
     print str(vote)
     vote = toAssignmentVote(vote)
