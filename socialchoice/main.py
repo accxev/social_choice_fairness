@@ -24,12 +24,13 @@ if __name__ == '__main__':
     #    2: [(F, A), (C, E), (D, B)],
     #    3: [(F, D, A, C), (B, E)],
     #}
-    vote = {
-        1: [(A), (B, C)],
-        2: [(B), (A), (C)],
-        3: [(A, C), (B)],
-    }
+    #vote = {
+    #    1: [(A), (B, C)],
+    #    2: [(B), (A), (C)],
+    #    3: [(A, C), (B)],
+    #}
 
+    # uniform vote
     #vote = {
     #    1: [(A), (B), (C)],
     #    2: [(A), (B), (C)],
@@ -37,10 +38,10 @@ if __name__ == '__main__':
     #}
 
     # very simple vote
-    #vote = {
-    #	1: [ (A), (B) ],
-    #	2: [ (B), (A) ],
-    #	}
+    vote = {
+    	1: [ (A), (B) ],
+    	2: [ (B), (A) ],
+    	}
 
     # example from paper
     #vote = {

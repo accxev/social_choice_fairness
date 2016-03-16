@@ -284,19 +284,28 @@ def computeLambda(state, maximumTime=1.0):
 
     bouncingAgents = []
     for currentAgent in activeAgents:
+	print "Current agent: " + agentNames[currentAgent] # name is off by one
         problem = LpProblem(agentNames[currentAgent], LpMaximize)
         createConstraints(problem, lambdaOpt)
+	# print repr(problem) + "test"
         (choiceClass, height, speed) = state.getAgentData(currentAgent)
+	# print "Choice Class: " + repr(choiceClass) + ", 
+	print "height: " + repr(height) + " , speed: " + repr(speed)
         problem.setObjective(createLpSum(choiceClass, choiceNames, choiceVariables)
                              - lambdaOpt * speed - height)
         checkPulpStatus(problem.solve(state.getSettings().getSolver()))
         value = problem.objective.value()
+	# print "value: " + repr(value) + "\n"
         if not state.getSettings().isNonnegative(value):
             raise ValueError(str(value) + " negative while determining bounce of " +
                              repr(currentAgent) + " from " + repr(choiceClass) +
                              "@" + str(height) + "/" + str(speed))
         if state.getSettings().isClose(value, 0):
             bouncingAgents.append(currentAgent)
+	    print currentAgent.getName()
+	print "climbing time: " + repr(lambdaOpt) + ", bouncingAgents: " + str(bouncingAgents) + "\n"
+	# TODO How does that work??	
+	#print map(Agent.getName(), bouncingAgents)
     return (lambdaOpt, bouncingAgents)
 
 
@@ -313,7 +322,9 @@ def solveVoteESR(vote, solverSettings):
         (climbTime, bouncingAgents) = computeLambda(state)
         state.advance(climbTime, bouncingAgents)
 	#TODO find better representation for bouncingAgents and the state
-	print "climb time: " + repr(climbTime) + ", bouncingAgents: tba, " + "state: " + str(state) + "\n"
+	print "state: " + str(state) + "\n"
+	#print "climb time: " + repr(climbTime) + ", bouncingAgents: tba, " + "state: " + str(state) + "\n"
+	#print "vote: " + str(vote) + ", " + str(state.getCurrentClassHeights()) + ", " + str(state.getSettings())
     return findLottery(vote, state.getCurrentClassHeights(), state.getSettings())
 
 
