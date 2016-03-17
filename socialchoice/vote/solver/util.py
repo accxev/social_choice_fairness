@@ -83,6 +83,9 @@ def findLottery(vote, classHeights, solverSettings):
     problem.setObjective(lpSum(choiceVariables.values()))
     checkPulpStatus(problem.solve(solverSettings.getSolver()))
 
+    # uncomment to print the linear program
+    # print repr(problem)
+
     choiceValues = dict()
     for choice, choiceName in choiceNames.items():
         choiceValues[choice.getObject()] = choiceVariables[choiceName].value()

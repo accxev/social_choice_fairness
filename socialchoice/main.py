@@ -19,51 +19,55 @@ if __name__ == '__main__':
     E = "e"
     F = "f"
 
-    #vote = {
-    #    1: [(A, B), (F, D, C, E)],
-    #    2: [(F, A), (C, E), (D, B)],
-    #    3: [(F, D, A, C), (B, E)],
-    #}
-    #vote = {
-    #    1: [(A), (B, C)],
-    #    2: [(B), (A), (C)],
-    #    3: [(A, C), (B)],
-    #}
+    # standard example 1
+    vote1 = {
+        1: [(A), (B, C)],
+        2: [(B), (A), (C)],
+        3: [(A, C), (B)],
+    }
+
+    # standard example 2
+    vote2 = {
+        1: [(A, B), (F, D, C, E)],
+        2: [(F, A), (C, E), (D, B)],
+        3: [(F, D, A, C), (B, E)],
+    }
 
     # uniform vote
-    #vote = {
-    #    1: [(A), (B), (C)],
-    #    2: [(A), (B), (C)],
-    #    3: [(A), (B), (C)],
-    #}
+    vote_u = {
+        1: [(A), (B), (C)],
+        2: [(A), (B), (C)],
+        3: [(A), (B), (C)],
+    }
 
     # very simple vote
-    vote = {
+    vote_s = {
     	1: [ (A), (B) ],
     	2: [ (B), (A) ],
     	}
 
     # example from paper
-    #vote = {
-	#1: [(A), (B), (E), (C,D)],
-	#2: [(A), (C), (D), (B,E)],
-	#3: [(B,D), (A,C,E)],
-	#4: [(C,E), (A,B,D)],
-	#5: [(C), (A,B,E), (D)],
-    #}
+    vote_p = {
+	1: [(A), (B), (E), (C,D)],
+	2: [(A), (C), (D), (B,E)],
+	3: [(B,D), (A,C,E)],
+	4: [(C,E), (A,B,D)],
+	5: [(C), (A,B,E), (D)],
+    }
 
     # example from Tobias' MA
-    #vote = {
-	#1: [(A,B,C), (D), (E)],
-	#2: [(A,C,D), (B), (E)],
-	#3: [(D,E), (A,C), (B)],
-	#4: [(A,B,E), (C,D)],
-    #}
+    vote_m = {
+	1: [(A,B,C), (D), (E)],
+	2: [(A,C,D), (B), (E)],
+	3: [(D,E), (A,C), (B)],
+	4: [(A,B,E), (C,D)],
+    }
 	
+    vote = vote1
     vote = parseVoteFromDict(vote)
     print str(vote)
-    vote = toAssignmentVote(vote)
-    print str(vote)
+    # vote = toAssignmentVote(vote) # use this function to convert the problem to a random assignment problem
+    # print str(vote)
 
     settings = SolverSettings(solver=PULP_CBC_CMD(msg=False),
                               absoluteTolerance=10 ** -5,

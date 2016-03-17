@@ -252,8 +252,12 @@ class SRState(object):
     def __str__(self):
         return "Agents: " + ",".join(map(str, sorted(self.agents.values(),
                                                      key=lambda data: data.getAgent().getName()))) + "\n" + \
-            "Classes: " + ",".join(map(str, sorted(self.towers.values(),
+            "Classes: " + ", ".join(map(str, sorted(self.towers.values(),
                                                    key=lambda tower: tower.getChoiceClass())))
+
+    def strNonZero(self):
+        return ",".join({str(tower) for tower in
+                ifilter(lambda tower: tower.getHeight() > 0.00000001, self.towers.values())}) # rounded
 
 
 def computeLambda(state, maximumTime=1.0):
@@ -283,11 +287,11 @@ def computeLambda(state, maximumTime=1.0):
     lambdaOpt = lambdaVariable.value()
 
     bouncingAgents = []
+    stringAgents = [] #TODO just a workaround; find better solution
     for currentAgent in activeAgents:
 	print "Current agent: " + agentNames[currentAgent] # name is off by one
         problem = LpProblem(agentNames[currentAgent], LpMaximize)
         createConstraints(problem, lambdaOpt)
-	# print repr(problem) + "test"
         (choiceClass, height, speed) = state.getAgentData(currentAgent)
 	# print "Choice Class: " + repr(choiceClass) + ", 
 	print "height: " + repr(height) + " , speed: " + repr(speed)
@@ -302,10 +306,9 @@ def computeLambda(state, maximumTime=1.0):
                              "@" + str(height) + "/" + str(speed))
         if state.getSettings().isClose(value, 0):
             bouncingAgents.append(currentAgent)
-	    print currentAgent.getName()
-	print "climbing time: " + repr(lambdaOpt) + ", bouncingAgents: " + str(bouncingAgents) + "\n"
-	# TODO How does that work??	
-	#print map(Agent.getName(), bouncingAgents)
+	    stringAgents.append(int(currentAgent.getName()))
+	print "climbing time: " + repr(lambdaOpt) + ", bouncingAgents: " + str(stringAgents) + "\n"	
+	# print map(Agent.getName(), bouncingAgents)
     return (lambdaOpt, bouncingAgents)
 
 
@@ -321,11 +324,9 @@ def solveVoteESR(vote, solverSettings):
     while not state.isFinished():
         (climbTime, bouncingAgents) = computeLambda(state)
         state.advance(climbTime, bouncingAgents)
-	#TODO find better representation for bouncingAgents and the state
-	print "state: " + str(state) + "\n"
-	#print "climb time: " + repr(climbTime) + ", bouncingAgents: tba, " + "state: " + str(state) + "\n"
-	#print "vote: " + str(vote) + ", " + str(state.getCurrentClassHeights()) + ", " + str(state.getSettings())
-    return findLottery(vote, state.getCurrentClassHeights(), state.getSettings())
+	#TODO 'set( ..., ...)' loswerden
+	print "Non-Zero Classes: " + str(state.strNonZero()) + "\n"
+    return findLottery(vote, state.getCurrentClassHeights(), state.getSettings()).getSupport()
 
 
 def solveVotePSR(vote, solverSettings):

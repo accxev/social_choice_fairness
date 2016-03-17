@@ -308,6 +308,15 @@ class Lottery(object):
     def getDistribution(self):
         return self.distribution.items()
 
+    #TODO zusammen fassen
+    def getSupport(self):
+	complete = sorted(self.distribution.items(),
+                                                  key=lambda (obj, value): str(obj))
+	complete = filter(lambda (o,v): v>0.0 , complete)
+	complete = ", ".join("{object}:{prob:1.6f}".format(object=obj, prob=value)
+                         for obj, value in complete)
+	return complete
+
     def __len__(self):
         return len(self.getDistribution())
 
